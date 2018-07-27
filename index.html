@@ -15,34 +15,48 @@
   <script type="text/javascript" src="app.js"></script>
 </head>
 <body>
-  <main class="js-main">
-    <div class="container">
+  <main class="main">
+    <div class="js-container">
+      <!--home page-->
       <div class="home_page">
         <h1 class="home_header">Do you think you know your CAT?</h1>
         <button class="start_quiz">Start quiz</button>
       </div>
-      <!--question-->
+      <!--JS Maniplulation
+      !--question--!
       <div class="question_page">
         <h2 class="q_header">Cat quiz</h2>
         <div class="q_box">
           <span class="js-q_number">1</span><span>/9: </span><span class="js-q_text">For how high can cats jump?</span>
         </div>
         <div class="stats_box">
-          <span>correct: </span><span class="s_correct_num">0</span><span> | wrong: </span><span class="s_wrong_num">0</span>
+          <span>correct: </span><span class="js-correct_num">0</span><span> | wrong: </span><span class="js-wrong_num">0</span>
         </div>
         <div class="choices_box">
           <form>
-              <span>1: </span><input type="radio" name="choice" id="num1">Red<br>
-              <span>2: </span><input type="radio" name="choice" id="num2">Blue<br>
-              <span>3: </span><input type="radio" name="choice" id="num3">Red<br>
-              <span>4: </span><input type="radio" name="choice" id="num4">Blue<br>
-              <span>5: </span><input type="radio" name="choice" id="num5">Red
-            </form>
+              <span>1: </span><input type="radio" name="choice" id="num1"> twice it's height<br>
+              <span>2: </span><input type="radio" name="choice" id="num2"> five times it's height<br>
+              <span>3: </span><input type="radio" name="choice" id="num3"> the same as it's height<br>
+              <span>4: </span><input type="radio" name="choice" id="num4"> seven times it's height<br>
+              <span>5: </span><input type="radio" name="choice" id="num5"> ten times it's height
+          </form>
         </div>
         <div class="nav_box">
           <button class="choice_submit_button">Submit Answer</button>
         </div>
       </div>
+      !--feedback--!
+      <div class="feedback_page_correct">
+        <h2 class="correct_ans">Correct!</h2>
+        <p class="feedback_text">So you do know that, what a surprise!</p>
+        <button class="next_question">Next</button>
+      </div>
+      <div class="feedback_page_wrong">
+        <h2 class="wrong_ans">Wrong!</h2>
+        <p class="feedback_text">Really?! you didn't know that? how could you face your cat after that?</p>
+        <button class="next_question">Next</button>
+      </div>
+    -->
     </div>
   </main>
 

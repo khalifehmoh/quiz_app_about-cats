@@ -14,7 +14,7 @@ button:hover {
   cursor: pointer;
 }
 
-.container {
+.js-container {
   position:relative;
   left:15%;
   padding-top:7% 
