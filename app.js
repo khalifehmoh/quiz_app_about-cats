@@ -5,9 +5,9 @@ var state = {
     choices : "",
     queNumber: 1,
     correctAns: 0,
-    wrongAns: 0
+    wrongAns: 0,
+    questionIndex: 0
   },
-  questionIndex: 0,
   checked: false,
   answerValue: false
 }
@@ -19,6 +19,30 @@ var addQuestion = function(state,requiredQuestion, requiredChoices) {
 
 var choiceCheck = function() {
   state.checked = true;
+}
+
+var answerCheckTrue = function() {
+  state.answerValue = true;
+}
+
+var answerCheckFalse = function() {
+  state.answerValue = false;
+}
+
+var incrementCorrectAnsCount = function() {
+  state.questionPage.correctAns += 1;
+}
+
+var incrementWrongAnsCount = function() {
+  state.questionPage.wrongAns += 1;
+}
+
+var incrementQueNumberCount = function() {
+  state.questionPage.queNumber += 1;
+}
+
+var incrementQuestionIndexCount = function() {
+  state.questionPage.questionIndex += 1;
 }
 //render functions
 var renderQuestion = function(state) {
@@ -41,7 +65,25 @@ var renderQuestion = function(state) {
         "</div>" +
       "</div>"
   $(".js-container").html(questionRender);
-  console.log(state.checked)
+}
+
+var renderFeedback = function() {
+  var result = "";
+  if (state.answerValue) {
+    result = "<div class=\"feedback_page_correct\">" +  
+        "<h2 class=\"correct_ans\">Correct!</h2>" +
+        "<p class=\"feedback_text\">Turns out you do know a lot about your cat!</p>" +
+        "<button class=\"next_question\">Next</button>" + 
+        "</div>";
+  }
+  else if (state.answerValue === false) {
+    result = "<div class=\"feedback_page_wrong\">" +  
+        "<h2 class=\"wrong_ans\">Wrong!</h2>" +
+        "<p class=\"feedback_text\">Really?! you didn't know that? how could you face your cat after that?</p>" +
+        "<button class=\"next_question\">Next</button>" + 
+        "</div>"
+  }
+  $(".js-container").html(result);
 }
 
 var renderCheck = function() {
@@ -53,7 +95,15 @@ var renderCheck = function() {
 //event listeners
 function handleStartQuiz(){
   $(".start_quiz").click(function(event){
-    var index = state.questionIndex;
+    var index = state.questionPage.questionIndex;
+    questionsArray(index);
+    renderQuestion(state)
+  })
+}
+
+function handleNext(){
+  $(".js-container").on("click", ".next_question", function(event) {
+    var index = state.questionPage.questionIndex;
     questionsArray(index);
     renderQuestion(state)
   })
@@ -61,13 +111,27 @@ function handleStartQuiz(){
 
 function handleSubmitAnswer() {
   $(".js-container").on("click", ".choice_submit_button", function(event) {
-    
-
-    })
-  } 
+    renderFeedback();
+    if (state.answerValue) {
+      incrementCorrectAnsCount();
+    }
+    else if (state.answerValue === false) {
+      incrementWrongAnsCount();
+    }
+    incrementQueNumberCount();
+    incrementQuestionIndexCount()
+  })
+} 
 
 function handleChoiceCheck() {
   $(".js-container").on( "click", "input[type=radio]" , function(event) {
+    var elementID = $(this).attr('id');
+    if (elementID === "correct") {
+      answerCheckTrue();
+    }
+    else if (elementID === "wrong") {
+      answerCheckFalse();
+    }
     choiceCheck();
     renderCheck()
   })
@@ -108,5 +172,7 @@ var questionsArray = function (index) {
 
   $(function() {
     handleStartQuiz();
-    handleChoiceCheck()
+    handleChoiceCheck();
+    handleSubmitAnswer();
+    handleNext()
   })
