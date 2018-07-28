@@ -1,5 +1,6 @@
 //state object
 var state = {
+  catName: "",
   questionPage: {
     question : "",
     choices : "",
@@ -12,6 +13,10 @@ var state = {
   answerValue: false
 }
 //state modification functions
+var setCatName = function(catname) {
+  state.catName = catname;
+  state.catName = state.catName.charAt(0).toUpperCase() + state.catName.slice(1);
+}
 var addQuestion = function(state,requiredQuestion, requiredChoices) {
   state.questionPage.question = requiredQuestion;
   state.questionPage.choices = requiredChoices;
@@ -45,6 +50,19 @@ var incrementQuestionIndexCount = function() {
   state.questionPage.questionIndex += 1;
 }
 //render functions
+var renderCatName = function() {
+  var render = "<div class=\"cats_name__page\">" +
+         "<form class=\"catForm\">" + 
+          "<h1 class=\"cat_name__header\">What's your cat name?</h1>" +
+         " <input type=\"text\" name=\"catname\" id= \"catname_input\" placeholder= \"Please enter the name\" >" +
+         " <button class=\"start_quiz\" >Start quiz</button>" +
+         "<br><span class=\"hidden cat_name_prompt\">Enter a name..</span>" + 
+          "<p>**Don't worry, we won't be using it for commercial purposes, lol.</p>" +
+         "</form>" +
+        "</div>"
+  $(".js-container").html(render);
+}
+
 var renderQuestion = function(state) {
   var index = state.questionIndex;
   var questionRender = "<div class=\"question_page\">" +  
@@ -72,14 +90,14 @@ var renderFeedback = function() {
   if (state.answerValue) {
     result = "<div class=\"feedback_page_correct\">" +  
         "<h2 class=\"correct_ans\">Correct!</h2>" +
-        "<p class=\"feedback_text\">Turns out you do know a lot about your cat!</p>" +
+        "<p class=\"feedback_text\">Turns out you do know a lot about " +  state.catName + "..<br>eventhough, " +  state.catName + " will still be ignoring you</p>" +
         "<button class=\"next_question\">Next</button>" + 
         "</div>";
   }
   else if (state.answerValue === false) {
     result = "<div class=\"feedback_page_wrong\">" +  
         "<h2 class=\"wrong_ans\">Wrong!</h2>" +
-        "<p class=\"feedback_text\">Really?! you didn't know that? how could you face your cat after that?</p>" +
+        "<p class=\"feedback_text\">Really?! you didn't know that? how could you face " + state.catName + " after that?</p>" +
         "<button class=\"next_question\">Next</button>" + 
         "</div>"
   }
@@ -93,11 +111,26 @@ var renderCheck = function() {
 
 
 //event listeners
+function handleOfc(){
+  $(".ofc_submit").click(function(event){
+    event.preventDefault();
+    renderCatName();
+  })
+}
+
 function handleStartQuiz(){
-  $(".start_quiz").click(function(event){
-    var index = state.questionPage.questionIndex;
-    questionsArray(index);
-    renderQuestion(state)
+  $(".js-container").on("click", ".start_quiz", function(event){ 
+    event.preventDefault();
+    var catNameStore = $("input[type=text]").val();
+    if (catNameStore === "") {
+      $(".cat_name_prompt:hidden").fadeIn();
+    }
+    else {
+      var index = state.questionPage.questionIndex;
+      setCatName(catNameStore);
+      questionsArray(index);
+      renderQuestion(state)
+    }
   })
 }
 
@@ -137,6 +170,7 @@ function handleChoiceCheck() {
   })
 }
 
+//other functions
 var questionsArray = function (index) {
   var questionText = ["For how high can cats jump?", "How fast can cats run?"];
   var questionChoices = [//first Q
@@ -171,6 +205,7 @@ var questionsArray = function (index) {
 
 
   $(function() {
+    handleOfc();
     handleStartQuiz();
     handleChoiceCheck();
     handleSubmitAnswer();

@@ -19,3 +19,7 @@ button:hover {
   left:15%;
   padding-top:7% 
 }
+
+.hidden {
+  display: none;
+}
