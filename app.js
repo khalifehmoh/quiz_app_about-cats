@@ -7,15 +7,21 @@ var state = {
     correctAns: 0,
     wrongAns: 0
   },
-  questionIndex: 0
+  questionIndex: 0,
+  checked: false,
+  answerValue: false
 }
 //state modification functions
 var addQuestion = function(state,requiredQuestion, requiredChoices) {
   state.questionPage.question = requiredQuestion;
   state.questionPage.choices = requiredChoices;
 }
+
+var choiceCheck = function() {
+  state.checked = true;
+}
 //render functions
-var renderQuestion = function(state, ) {
+var renderQuestion = function(state) {
   var index = state.questionIndex;
   var questionRender = "<div class=\"question_page\">" +  
         "<h2 class=\"q_header\">Cat quiz</h2>" +
@@ -31,11 +37,19 @@ var renderQuestion = function(state, ) {
         "<div class=\"choices_box\">" + state.questionPage.choices +
         "</div>" +
         "<div class=\"nav_box\">" +
-          "<button class=\"choice_submit_button\">Submit Answer</button>" +
+          `<button ${state.checked ? "" : "disabled" } class=\"choice_submit_button\">Submit Answer</button>` +
         "</div>" +
       "</div>"
-  $(".js-container").html(questionRender)
+  $(".js-container").html(questionRender);
+  console.log(state.checked)
 }
+
+var renderCheck = function() {
+  var changeButton = `<button ${state.checked ? "" : "disabled" } class=\"choice_submit_button\">Submit Answer</button>`
+  $(".nav_box").html(changeButton)
+}
+
+
 //event listeners
 function handleStartQuiz(){
   $(".start_quiz").click(function(event){
@@ -45,23 +59,37 @@ function handleStartQuiz(){
   })
 }
 
+function handleSubmitAnswer() {
+  $(".js-container").on("click", ".choice_submit_button", function(event) {
+    
+
+    })
+  } 
+
+function handleChoiceCheck() {
+  $(".js-container").on( "click", "input[type=radio]" , function(event) {
+    choiceCheck();
+    renderCheck()
+  })
+}
+
 var questionsArray = function (index) {
   var questionText = ["For how high can cats jump?", "How fast can cats run?"];
   var questionChoices = [//first Q
               "<form>" +
-                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"num1\"> twice it's height<br>" +
-                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"num2\"> five times it's height<br>" +
-                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"num3\"> the same as it's height<br>" +
-                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"num4\"> seven times it's height<br>" +
-                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"num5\"> ten times it's height" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> twice it's height<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> five times it's height<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> the same as it's height<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> seven times it's height<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> ten times it's height" +
               "</form>",
                         //second Q
               "<form>" +
-                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"num1\"> 30mph<br>" +
-                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"num2\"> 32mph" +
-                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"num3\"> 2mph" +
-                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"num4\"> 50mph" +
-                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"num5\"> 10mph" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 30mph<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> 34mph<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 2mph<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 50mph<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 10mph" +
               "</form>"]
   var requiredQuestion = questionText[index];
   var requiredChoices = questionChoices[index];
@@ -77,6 +105,8 @@ var questionsArray = function (index) {
   "</form>"
   */
 
+
   $(function() {
-    handleStartQuiz()
+    handleStartQuiz();
+    handleChoiceCheck()
   })
