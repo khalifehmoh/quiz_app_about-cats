@@ -26,6 +26,10 @@ var choiceCheck = function() {
   state.checked = true;
 }
 
+var choiceUncheck = function() {
+  state.checked = false;
+}
+
 var answerCheckTrue = function() {
   state.answerValue = true;
 }
@@ -49,6 +53,7 @@ var incrementQueNumberCount = function() {
 var incrementQuestionIndexCount = function() {
   state.questionPage.questionIndex += 1;
 }
+
 //render functions
 var renderCatName = function() {
   var render = "<div class=\"cats_name__page\">" +
@@ -87,18 +92,26 @@ var renderQuestion = function(state) {
 
 var renderFeedback = function() {
   var result = "";
+  var checkLastAnswer = function(){
+    if (state.questionPage.questionIndex === 8) {
+      return " class=\"view_result\">View result"
+    }
+    else {
+      return " class=\"next_question\">Next"
+    }
+  }
   var correctRandom =  ["Correct!", "That's right!", "Yeppi!"][Math.floor(Math.random()*3)]
-  var wrongRandom =  ["Wrong!", "That's incorrect!", "Ugh!"][Math.floor(Math.random()*3)]
+  var wrongRandom =  ["Wrong!", "That's incorrect!", "Ugh come on!"][Math.floor(Math.random()*3)]
   if (state.answerValue) {
     result = "<div class=\"feedback_page_correct\">" +  
         "<h2 class=\"correct_ans\">" + correctRandom + "</h2>" +
-        "<button class=\"next_question\">Next</button>" + 
+        "<button" + checkLastAnswer() + "</button>" + 
         "</div>";
   }
   else if (state.answerValue === false) {
     result = "<div class=\"feedback_page_wrong\">" +  
         "<h2 class=\"wrong_ans\">"+ wrongRandom + "</h2>" +
-        "<button class=\"next_question\">Next</button>" + 
+        "<button" + checkLastAnswer() + "</button>" + 
         "</div>"
   }
   $(".js-container").html(result);
@@ -109,6 +122,27 @@ var renderCheck = function() {
   $(".nav_box").html(changeButton)
 }
 
+var renderResult = function() {
+  var result = "";
+  var numOfCorrectAns = state.questionPage.correctAns; 
+  var numOfWrongAns = state.questionPage.wrongAns; 
+
+  if (numOfCorrectAns > numOfWrongAns) {
+    result = "<div class=\"result_page_correct\">" +  
+        "<h1 class=\"correct_result\">Good Job!</h2>" +
+        "<p class=\"feedback_text\">Turns out you do know a lot about " +  state.catName + "..<br>eventhough, " +  state.catName + " will still be ignoring you</p>" + 
+        "<button class=\"start_again\">Start again</button>" +
+        "</div>";
+  }
+  else if (numOfCorrectAns < numOfWrongAns) {
+    result = "<div class=\"result_page_wrong\">" + 
+        "<h1 class=\"wrong_result\">What a shame..</h2>" +
+        "<p class=\"feedback_text\">Really?! how could you face " + state.catName + " after that?</p>" +
+        "<button class=\"start_again\">Start again</button>" +
+        "</div>"
+  }
+  $(".js-container").html(result);
+}
 
 //event listeners
 function handleOfc(){
@@ -166,7 +200,20 @@ function handleChoiceCheck() {
       answerCheckFalse();
     }
     choiceCheck();
-    renderCheck()
+    renderCheck();
+    choiceUncheck();
+  })
+}
+
+function handleViewResult(){
+  $(".js-container").on("click", ".view_result", function(event) {
+    renderResult()
+  })
+}
+
+function handleStartAgain(){
+  $(".js-container").on("click", ".start_again", function(event) {
+    window.location.reload()
   })
 }
 
@@ -231,7 +278,7 @@ var questionsArray = function (index) {
               "</form>",
                       //seventh Q
               "<form>" +
-                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> kittens(it's not kittens, don't choose this)<br>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> kittens (it's not kittens, don't choose this)<br>" +
                 "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> kindle<br>" +
                 "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> fire<br>" +
                 "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> hot<br>" +
@@ -258,22 +305,14 @@ var questionsArray = function (index) {
   addQuestion(state, requiredQuestion, requiredChoices);            
 }
 
-/*"<form>" +
-              "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"num1\"> twice it's height<br>" +
-             " <span>2: </span><input type=\"radio\" name=\"choice\" id=\"num2\"> five times it's height<br>" +
-              "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"num3\"> the same as it's height<br>" +
-             " <span>4: </span><input type=\"radio\" name=\"choice\" id=\"num4\"> seven times it's height<br>" +
-             " <span>5: </span><input type=\"radio\" name=\"choice\" id=\"num5\"> ten times it's height" +
-  "</form>"
-  "<p class=\"feedback_text\">Turns out you do know a lot about " +  state.catName + "..<br>eventhough, " +  state.catName + " will still be ignoring you</p>" +
-  "<p class=\"feedback_text\">Really?! you didn't know that? how could you face " + state.catName + " after that?</p>" 
-  */
 
-
+//handlers
 $(function() {
     handleOfc();
     handleStartQuiz();
     handleChoiceCheck();
     handleSubmitAnswer();
-    handleNext()
+    handleNext();
+    handleViewResult();
+    handleStartAgain()
   })
