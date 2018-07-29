@@ -87,17 +87,17 @@ var renderQuestion = function(state) {
 
 var renderFeedback = function() {
   var result = "";
+  var correctRandom =  ["Correct!", "That's right!", "Yeppi!"][Math.floor(Math.random()*3)]
+  var wrongRandom =  ["Wrong!", "That's incorrect!", "Ugh!"][Math.floor(Math.random()*3)]
   if (state.answerValue) {
     result = "<div class=\"feedback_page_correct\">" +  
-        "<h2 class=\"correct_ans\">Correct!</h2>" +
-        "<p class=\"feedback_text\">Turns out you do know a lot about " +  state.catName + "..<br>eventhough, " +  state.catName + " will still be ignoring you</p>" +
+        "<h2 class=\"correct_ans\">" + correctRandom + "</h2>" +
         "<button class=\"next_question\">Next</button>" + 
         "</div>";
   }
   else if (state.answerValue === false) {
     result = "<div class=\"feedback_page_wrong\">" +  
-        "<h2 class=\"wrong_ans\">Wrong!</h2>" +
-        "<p class=\"feedback_text\">Really?! you didn't know that? how could you face " + state.catName + " after that?</p>" +
+        "<h2 class=\"wrong_ans\">"+ wrongRandom + "</h2>" +
         "<button class=\"next_question\">Next</button>" + 
         "</div>"
   }
@@ -172,22 +172,86 @@ function handleChoiceCheck() {
 
 //other functions
 var questionsArray = function (index) {
-  var questionText = ["For how high can cats jump?", "How fast can cats run?"];
+  var questionText = ["For how high can cats jump?",
+                      "What was the punishment for the smuggling and exportation of cats in ancient Egypt?",
+                      "For how long does the female cat carries her kittens before giving birth to them?",
+                      "If a cat fell down from a five storie building, how much it's survival rate?",
+                      "Humans greet each other using hands, how does cats greet each other?",
+                      "How many toes does cats have on each paw?",
+                      "What does a group of kittens called?",
+                      "Who invented the cats \"flap\" door?",
+                      "Why does cats meow?"];
   var questionChoices = [//first Q
               "<form>" +
                 "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> twice it's height<br>" +
-                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> five times it's height<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> twenty times it's height<br>" +
                 "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> the same as it's height<br>" +
                 "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> seven times it's height<br>" +
                 "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> ten times it's height" +
               "</form>",
                         //second Q
               "<form>" +
-                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 30mph<br>" +
-                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> 34mph<br>" +
-                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 2mph<br>" +
-                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 50mph<br>" +
-                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 10mph" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> Jail<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> Death<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> Alive Mummication<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> Cutting Fingers<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> Nothing, they didn't care about them anyway" +
+              "</form>",
+                      //third Q
+              "<form>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 28 days<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> 2 months<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 3 months<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 20 days<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 6 months" +
+              "</form>",
+                      //fourth Q
+              "<form>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 20%<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 50%<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> 90%<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 100%<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> 0% There's no way that it can survive such incedent" +
+              "</form>",
+                      //fifth Q
+              "<form>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> By rubbing there noses<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> By meowing <br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> By running in circles<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> By shaking hands<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> I don't know" +
+              "</form>",
+                      //sixth Q
+              "<form>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> two on the back, three on the front paws<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> ten on the back, ten on the front paws<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> five on the back, eleven on the front paws<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> too many on the back, a lot on the front paws<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> four on the back, five on the front paws" +
+              "</form>",
+                      //seventh Q
+              "<form>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> kittens(it's not kittens, don't choose this)<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> kindle<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> fire<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> hot<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> hottens" +
+              "</form>",
+                      //eigth Q
+              "<form>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> a guy frustrated by his cat cuz she keeps opening the door and leave it opened<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> Donald trump<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> I did!<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"correct\">Issac Newton<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> some inventor that i don't the know the name of" +
+              "</form>",
+                      //ninth Q
+              "<form>" +
+                "<span>1: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> To call for other cats<br>" +
+                "<span>2: </span><input type=\"radio\" name=\"choice\" id=\"correct\"> To call for humans<br>" +
+                "<span>3: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> To annoy you<br>" +
+                "<span>4: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> To express happiness<br>" +
+                "<span>5: </span><input type=\"radio\" name=\"choice\" id=\"wrong\"> To practice its vocal cords for next weeks Purr's got talent" +
               "</form>"]
   var requiredQuestion = questionText[index];
   var requiredChoices = questionChoices[index];
@@ -201,10 +265,12 @@ var questionsArray = function (index) {
              " <span>4: </span><input type=\"radio\" name=\"choice\" id=\"num4\"> seven times it's height<br>" +
              " <span>5: </span><input type=\"radio\" name=\"choice\" id=\"num5\"> ten times it's height" +
   "</form>"
+  "<p class=\"feedback_text\">Turns out you do know a lot about " +  state.catName + "..<br>eventhough, " +  state.catName + " will still be ignoring you</p>" +
+  "<p class=\"feedback_text\">Really?! you didn't know that? how could you face " + state.catName + " after that?</p>" 
   */
 
 
-  $(function() {
+$(function() {
     handleOfc();
     handleStartQuiz();
     handleChoiceCheck();
